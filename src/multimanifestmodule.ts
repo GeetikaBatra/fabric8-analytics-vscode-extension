@@ -2,7 +2,6 @@
 
 import * as vscode from 'vscode';
 import * as fs from 'fs';
-
 import { stackanalysismodule } from './stackanalysismodule';
 import { Apiendpoint } from './apiendpoint';
 import { ProjectDataProvider } from './ProjectDataProvider';
@@ -116,7 +115,13 @@ export module multimanifestmodule {
 
         let filePath: string = '';
         let filePathList: any = [];
+        let folderList: Array<Object> = vscode.workspace.workspaceFolders;
+        const editor = vscode.window.activeTextEditor;
+        console.log(folderList);
         let projRootPath: string = vscode.workspace.rootPath;
+        const resource = editor.document.uri
+        let newpath: string = vscode.workspace.getWorkspaceFolder(resource)
+        console.log(projRootPath)
         return new Promise((resolve, reject) => {
             let fsPath : string = fileContent.fsPath ? fileContent.fsPath : '';
             fs.readFile(fsPath, function(err, data) {
@@ -143,6 +148,9 @@ export module multimanifestmodule {
                             strSplit = '\\';
                         }
                         filePath = fileContent._fsPath.split(projRootPath)[1].replace(filePathSplit, '');
+                        console.log("filepath***************************888")
+                        console.log(filePath)
+                        vscode.workspace.getWorkspaceFolder("./")
                         filePathList = filePath.split(strSplit);
 
                         manifestObj.options.filename = filePathList[filePathList.length-1];
